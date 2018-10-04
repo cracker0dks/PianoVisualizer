@@ -180,7 +180,7 @@ var Fireworks = (function() {
 
         // velocity
         {
-          x: vel.x || Math.random() * 3 - 1.5,
+          x: vel.x || 0,//Math.random() * 2 -1,
           y: vel.y || 0
         },
 
@@ -215,9 +215,9 @@ var Particle = function(pos, target, vel, marker, usePhysics) {
 
   // properties for animation
   // and colouring
-  this.GRAVITY  = 0.06;
+  this.GRAVITY  = 0.02;
   this.alpha    = 1;
-  this.easing   = Math.random() * 0.02;
+  this.easing   = 0.02;
   this.fade     = Math.random() * 0.1;
   this.gridX    = marker % 120;
   this.gridY    = Math.floor(marker / 120) * 12;
@@ -271,10 +271,10 @@ Particle.prototype = {
       var distance = (this.target.y - this.pos.y);
 
       // ease the position
-      this.pos.y += distance * (0.03 + this.easing);
+      this.pos.y += distance * (0.01 + this.easing);
 
       // cap to 1
-      this.alpha = Math.min(distance * distance * 0.00005, 1);
+      this.alpha = Math.min(distance * distance * 0.0002, 1);
     }
 
     this.pos.x += this.vel.x;
@@ -336,11 +336,11 @@ var FireworkExplosions = {
    */
   circle: function(firework) {
 
-    var count = 100;
+    var count = 50;
     var angle = (Math.PI * 2) / count;
     while(count--) {
 
-      var randomVelocity = 4 + Math.random() * 4;
+      var randomVelocity = 1 + Math.random() * 1;
       var particleAngle = count * angle;
 
       Fireworks.createParticle(
@@ -363,11 +363,11 @@ var FireworkExplosions = {
     // set up how many points the firework
     // should have as well as the velocity
     // of the exploded particles etc
-    var points          = 6 + Math.round(Math.random() * 5);
-    var jump            = 3 + Math.round(Math.random() * 2);
-    var subdivisions    = 3 + Math.round(Math.random() * 2);
-    var radius          = 80;
-    var randomVelocity  = -(Math.random() * 3 - 6);
+    var points          = 5 + Math.round(Math.random() * 15);
+    var jump            = 3 + Math.round(Math.random() * 10);
+    var subdivisions    = 4 + Math.round(Math.random() * 5);
+    var radius          = 10;
+    var randomVelocity  = -4;
 
     var start           = 0;
     var end             = 0;

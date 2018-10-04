@@ -225,3 +225,8 @@ function getKeyPosition(i) {
     }
     return ret;
 }
+
+setTimeout(function() {
+    useMidiIn("input-0")
+    passThroughMidiOut("output-2")
+}, 500)
