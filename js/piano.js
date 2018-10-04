@@ -115,15 +115,15 @@ function redrawCanvas(theNote) {
                     diff = 4;
                 }
                 x = x+(keyWidth*diff);
-                drawnPos[x+keyWidth/4] = true;
+                drawnPos[Math.round(x+keyWidth/4)] = true;
                 if(theNote == i)
-                Fireworks.createParticle({ x : x+keyWidth/4 })
+                Fireworks.createParticle({ x : x+keyWidth/2 })
             } else {
                 x = x+(keyWidth*5);
                 ctx.fillStyle = keyHColor;
                 ctx.fillRect(x,0,keyWidth,keyHeight);
                 if(theNote == i)
-                Fireworks.createParticle({ x : x+keyWidth/4 })
+                Fireworks.createParticle({ x : x+keyWidth/2 })
             }
         }
     }
@@ -139,7 +139,8 @@ function redrawCanvas(theNote) {
             ctx.strokeRect(x,0,keyWidth,keyHeight);
         }
     }
-    var whites = 0;
+
+    //Draw half steps
     for(var j=0;j<=100;j++) {
         var keyPosition = getKeyPosition(j);
         var x = keyPosition[0];
@@ -147,20 +148,18 @@ function redrawCanvas(theNote) {
         var isHalfStep = keyPosition[1];
 
         if(isHalfStep) {
-            if(drawnPos[x+keyWidth/4]) {
+            if(drawnPos[Math.round(x+keyWidth/4)]) {
                 ctx.fillStyle = keyHColor;
                 ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
                 ctx.fillStyle = "#000000";
                 ctx.lineWidth=2;
                 ctx.strokeRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
             } else {
-                whites++;
                 ctx.fillStyle = "#000000";
                 ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
             }
         }
     }
-    console.log(whites)
 }
 redrawCanvas();
 
