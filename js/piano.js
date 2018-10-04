@@ -1,5 +1,5 @@
-var keyWidth = 20;
-var keyHeight = 80;
+var keyWidth = window.innerWidth/58;
+var keyHeight = 120;
 var keyHColor = "#FF0000";
 
 var midi, data;
@@ -68,19 +68,19 @@ function padel() {
 
 function noteOn(midiNote, velocity) {
     pressedButtons[midiNote-21] = velocity;
-    redrawCanvas();
+    redrawCanvas(midiNote-21);
 }
 
 function noteOff(midiNote, velocity) {
     pressedButtons[midiNote-21] = null;
-    redrawCanvas();
+    redrawCanvas(midiNote-21);
 }
 
 var pressedButtons = {};
 var canvas = document.getElementById("pianoCanvas");
 var ctx = canvas.getContext("2d");
 
-function redrawCanvas() {
+function redrawCanvas(theNote) {
     ctx.canvas.width = ctx.canvas.width;
     
     // MODs
@@ -103,6 +103,7 @@ function redrawCanvas() {
         var velocity = pressedButtons[i];
         
         if(velocity) {
+            
             var keyPosition = getKeyPosition(i, true);
             var x = keyPosition[0];
             var isHalfStep = keyPosition[1];
@@ -115,10 +116,14 @@ function redrawCanvas() {
                 }
                 x = x+(keyWidth*diff);
                 drawnPos[x+keyWidth/4] = true;
+                if(theNote == i)
+                Fireworks.createParticle({ x : x+keyWidth/4 })
             } else {
                 x = x+(keyWidth*5);
                 ctx.fillStyle = keyHColor;
                 ctx.fillRect(x,0,keyWidth,keyHeight);
+                if(theNote == i)
+                Fireworks.createParticle({ x : x+keyWidth/4 })
             }
         }
     }
@@ -134,7 +139,7 @@ function redrawCanvas() {
             ctx.strokeRect(x,0,keyWidth,keyHeight);
         }
     }
-
+    var whites = 0;
     for(var j=0;j<=100;j++) {
         var keyPosition = getKeyPosition(j);
         var x = keyPosition[0];
@@ -144,20 +149,18 @@ function redrawCanvas() {
         if(isHalfStep) {
             if(drawnPos[x+keyWidth/4]) {
                 ctx.fillStyle = keyHColor;
-                ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-10);
+                ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
                 ctx.fillStyle = "#000000";
                 ctx.lineWidth=2;
-                ctx.strokeRect(x+keyWidth/4,0,keyWidth/2,keyHeight-10);
+                ctx.strokeRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
             } else {
+                whites++;
                 ctx.fillStyle = "#000000";
-                ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-10);
+                ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-keyHeight/3);
             }
-            
-
-            
-            
         }
     }
+    console.log(whites)
 }
 redrawCanvas();
 

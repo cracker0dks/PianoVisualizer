@@ -3,10 +3,17 @@
         <title>
             MIDI
         </title>
-        
+        <link href="css/fireworks.css" rel="stylesheet">
     </head>
-    <h1>Piano Visualizer</h1>
-    <canvas id="pianoCanvas" width="1200" height="500"></canvas>
+    <h1 style="color:white;">Piano Visualizer</h1>
+    <canvas style="background:white; position: absolute; bottom:0px; z-index: 10;" id="pianoCanvas" width="1920" height="120"></canvas>
 
-    <script src="./js/piano.js"></script>
+    <aside id="library">
+        <img src="images/big-glow.png" id="big-glow" />
+        <img src="images/small-glow.png" id="small-glow" />
+      </aside>
+    
 </html>
+<script src="./js/piano.js"></script>
+<script src="third_party/requestanimframe.js"></script>
+<script src="js/fireworks.js"></script>
