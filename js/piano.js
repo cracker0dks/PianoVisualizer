@@ -2,6 +2,8 @@ var keyWidth = window.innerWidth/58;
 var keyHeight = 120;
 var keyHColor = "#FF0000";
 
+var outputdev = null;
+
 var midi, data;
 // request MIDI access
 if (navigator.requestMIDIAccess) {
@@ -12,16 +14,45 @@ if (navigator.requestMIDIAccess) {
     alert("No MIDI support in your browser.");
 }
 
+function useMidiIn(id) {
+    var inputs = midi.inputs.values();
+    for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+        if(input["value"]["id"] == id) {
+            input.value.onmidimessage = onMIDIMessage;
+        }
+    }
+    //dev.value.onmidimessage = onMIDIMessage;
+}
+
+function passThroughMidiOut(id) {
+    outputdev = midi.outputs.get(id); 
+}
+
 // midi functions
 function onMIDISuccess(midiAccess) {
     // when we get a succesful response, run this code
     midi = midiAccess; // this is our raw MIDI data, inputs, outputs, and sysex status
 
+    console.log("INPUTS - Type: useMidiIn(id)")
     var inputs = midi.inputs.values();
     // loop over all available inputs and listen for any MIDI input
     for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
         // each time there is a midi message call the onMIDIMessage function
-        input.value.onmidimessage = onMIDIMessage;
+        console.log("ID: "+input["value"]["id"]+ " Name:"+input["value"]["name"])
+        // if(input["value"]["id"] == "input-0") {
+        //     input.value.onmidimessage = onMIDIMessage;
+        // }
+            
+    }
+
+    console.log("----------------------------------------")
+    console.log("OUTPUTS - Type: passThroughMidiOut(id)")
+    var outputs = midi.outputs.values();
+    for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
+        // each time there is a midi message call the onMIDIMessage function
+        console.log("ID: "+output["value"]["id"]+ " Name:"+output["value"]["name"])
+        // if(output["value"]["id"] == "output-2")
+        //     outputdev = midi.outputs.get(output["value"]["id"]); 
     }
 }
 
@@ -56,14 +87,16 @@ function onMIDIMessage(event) {
             break;
     }
 
+    if(outputdev) {
+        //console.log("SEND")
+        outputdev.send(data);
+    }
     //console.log('data', data, 'cmd', cmd, 'channel', channel);
 }
 
 var padelPressed = false;
 function padel() {
-    padelPressed = !padelPressed;
-    console.log(padelPressed)
-    
+    padelPressed = !padelPressed;   
 }
 
 function noteOn(midiNote, velocity) {
@@ -104,7 +137,7 @@ function redrawCanvas(theNote) {
         
         if(velocity) {
             
-            var keyPosition = getKeyPosition(i, true);
+            var keyPosition = getKeyPosition(i);
             var x = keyPosition[0];
             var isHalfStep = keyPosition[1];
             if(isHalfStep) { //Half steps
@@ -163,7 +196,7 @@ function redrawCanvas(theNote) {
 }
 redrawCanvas();
 
-function getKeyPosition(i, log) {
+function getKeyPosition(i) {
     var i = parseInt(i);
     var octave = Math.floor((i)/12);
     var key = false;
@@ -187,7 +220,6 @@ function getKeyPosition(i, log) {
         key = i%12==8 && !key ? 6 : key;
         key = i%12==10 && !key ? 7 : key;
         key--;
-        if(log) console.log(octave, key)
         ret = [(octave*7)*keyWidth+key*keyWidth, false];
         
     }
