@@ -1,5 +1,6 @@
 var keyWidth = 20;
 var keyHeight = 80;
+var keyHColor = "#FF0000";
 
 var midi, data;
 // request MIDI access
@@ -76,7 +77,7 @@ function noteOff(midiNote, velocity) {
 }
 
 var pressedButtons = {};
-var canvas = document.getElementById("myCanvas");
+var canvas = document.getElementById("pianoCanvas");
 var ctx = canvas.getContext("2d");
 
 function redrawCanvas() {
@@ -113,12 +114,10 @@ function redrawCanvas() {
                     diff = 4;
                 }
                 x = x+(keyWidth*diff);
-                // ctx.fillStyle = "#FF0000";
-                // ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-10);
                 drawnPos[x+keyWidth/4] = true;
             } else {
                 x = x+(keyWidth*5);
-                ctx.fillStyle = "#FF0000";
+                ctx.fillStyle = keyHColor;
                 ctx.fillRect(x,0,keyWidth,keyHeight);
             }
         }
@@ -144,7 +143,7 @@ function redrawCanvas() {
 
         if(isHalfStep) {
             if(drawnPos[x+keyWidth/4]) {
-                ctx.fillStyle = "#FF0000";
+                ctx.fillStyle = keyHColor;
                 ctx.fillRect(x+keyWidth/4,0,keyWidth/2,keyHeight-10);
                 ctx.fillStyle = "#000000";
                 ctx.lineWidth=2;
