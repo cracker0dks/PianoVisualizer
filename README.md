@@ -2,7 +2,8 @@
 
 Visualize MIDI Input as Firework
 
-![preview](/images/example.png)
+Video:
+[![preview](https://img.youtube.com/vi/D4jRT7jpACQ/0.jpg)](https://youtu.be/D4jRT7jpACQ)
 
 ## Setup
 1. Download or clone
