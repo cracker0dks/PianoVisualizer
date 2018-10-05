@@ -3,6 +3,8 @@
 Visualize MIDI Input as Firework
 
 Video:
+
+
 [![preview](https://img.youtube.com/vi/D4jRT7jpACQ/0.jpg)](https://youtu.be/D4jRT7jpACQ)
 
 ## Setup
