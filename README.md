@@ -2,6 +2,8 @@
 
 Visualize MIDI Input as Firework
 
+![preview](/images/example.png)
+
 ## Setup
 1. Download or clone
 2. Open index.html (Chrome)
