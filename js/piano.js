@@ -226,7 +226,8 @@ function getKeyPosition(i) {
     return ret;
 }
 
-setTimeout(function() {
-    useMidiIn("input-0")
-    passThroughMidiOut("output-2")
-}, 500)
+//Set input output every time
+// setTimeout(function() {
+//     useMidiIn("input-0")
+//     passThroughMidiOut("output-2")
+// }, 500)
